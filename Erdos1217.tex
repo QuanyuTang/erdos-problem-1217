@@ -1,0 +1,758 @@
+\documentclass[11pt,letterpaper,reqno]{amsart}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, calc}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{doi}
+\usepackage{float}
+\addtolength{\hoffset}{-1.5cm}\addtolength{\textwidth}{3cm}
+\addtolength{\voffset}{-1cm}\addtolength{\textheight}{2cm}
+
+\usepackage{bookmark}
+\usepackage{hyperref}
+\hypersetup{pdfstartview={FitH}}
+
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+\newcommand{\abs}[1]{| #1 |}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\tr}{\operatorname{Tr}}
+\DeclareMathOperator{\rank}{rank}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}{Claim}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\numberwithin{equation}{section}
+
+\newcommand{\F}{\mathbb F}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\R}{\mathbb R}
+\newcommand{\T}{\mathbb T}
+\newcommand{\E}{\mathbb E}
+\newcommand{\1}{\mathbf 1}
+\newcommand{\eps}{\varepsilon}
+
+\DeclareMathOperator{\Bin}{Bin}
+\DeclareMathOperator{\Aff}{Aff}
+\DeclareMathOperator{\TV}{TV}
+
+\begin{document}
+
+\title{A Divisibility Subsequence with Large Logarithmic Counting Function}
+
+\maketitle
+
+\begin{theorem}
+Let
+\[
+A=\{a_1<a_2<\cdots\}\subset \{2,3,\dots\}
+\]
+be an infinite set of positive integers, listed in increasing order, and assume that \(A\) has positive lower logarithmic density, i.e.
+\[
+\liminf_{x\to\infty}\frac{1}{\log x}\sum_{\substack{a_n<x}}\frac1{a_n}>0.
+\]
+Then there exists an infinite subsequence
+\[
+a_{n_1}<a_{n_2}<\cdots
+\]
+such that
+\[
+a_{n_i}\mid a_{n_{i+1}}\qquad (i\ge 1)
+\]
+and
+\[
+\limsup_{x\to\infty}\frac{1}{\log\log x}\#\{i:\ a_{n_i}<x\}
+\ge
+\limsup_{x\to\infty}\frac{1}{\log\log x}\sum_{\substack{a_n<x}}\frac{1}{a_n\log a_n}.
+\]
+\end{theorem}
+
+\begin{proof}
+Write
+\[
+W_A(x):=\sum_{\substack{a_n<x}}\frac{1}{a_n\log a_n},
+\qquad
+\Lambda:=\limsup_{x\to\infty}\frac{W_A(x)}{\log\log x}.
+\]
+Note that
+\[
+0\le W_A(x)\le \sum_{2\le m<x}\frac{1}{m\log m}=\log\log x+O(1),
+\]
+and therefore
+\[
+0\le \Lambda\le 1.
+\]
+In particular, \(\Lambda<\infty\).
+
+We shall construct a random divisibility chain and show that, for at least one realization of that chain,
+\[
+\limsup_{x\to\infty}\frac{1}{\log\log x}\#\bigl(\mathcal C\cap A\cap [2,x)\bigr)\ge \Lambda,
+\]
+where $\mathcal C$ is the set of integers visited by the chain.
+
+\medskip
+
+\noindent
+{\bf Step 1: a random divisibility chain.}
+For each prime $p$, let $\xi_p\sim \mathrm{Exp}(1)$ be independent exponential random variables, and for $t>1$ define
+\[
+\alpha_p(t):=\left\lfloor \frac{\xi_p}{t\log p}\right\rfloor,
+\qquad
+N_t:=\prod_p p^{\alpha_p(t)}.
+\]
+For fixed $t>1$,
+\[
+\sum_p \mathbb P(\alpha_p(t)\ge 1)=\sum_p p^{-t}<\infty.
+\]
+Hence, by the first Borel--Cantelli lemma, almost surely only finitely many \(\alpha_p(t)\) are nonzero, and hence \(N_t\) is a well-defined positive integer.
+
+
+To obtain a single probability-one event on which $N_t$ is defined for every $t>1$, let
+\[
+\Omega_0:=
+\bigcap_{\substack{r\in\mathbb Q\\ r>1}}
+\left\{
+\#\{p:\ \xi_p\ge r\log p\}<\infty
+\right\}.
+\]
+For each rational $r>1$, the event inside the braces has probability $1$ by the previous paragraph, so $\mathbb P(\Omega_0)=1$.
+Now fix $\omega\in\Omega_0$ and $t>1$. Choose a rational $r$ with $1<r<t$. Then
+\[
+\{p:\ \xi_p(\omega)\ge t\log p\}
+\subseteq
+\{p:\ \xi_p(\omega)\ge r\log p\},
+\]
+and the set on the right is finite by the definition of $\Omega_0$. Hence only finitely many primes satisfy $\alpha_p(t,\omega)\ge 1$, so $N_t(\omega)$ is well-defined for every $t>1$.
+Thus, after intersecting with the further probability-one events introduced below, we may and do work on a probability-one event on which $N_t$ is defined for every $t>1$.
+
+
+If $1<s<t$, then $\alpha_p(s)\ge \alpha_p(t)$ for every prime $p$, so
+\[
+N_t\mid N_s.
+\]
+Thus, as $t$ decreases to $1$, the distinct values taken by $N_t$ form an increasing divisibility chain.
+
+Let
+\[
+T_{p,k}:=\frac{\xi_p}{k\log p}\qquad (p\text{ prime},\ k\ge 1).
+\]
+Among these, the values \(T_{p,k}>1\) are precisely the jump times of the process \(t\mapsto N_t\) on \((1,\infty)\). For any two distinct pairs $(p,k)\neq(q,\ell)$, one has
+\[
+\mathbb P(T_{p,k}=T_{q,\ell})=0.
+\]
+Indeed, if $p\neq q$, then $T_{p,k}$ and $T_{q,\ell}$ are independent random variables with continuous distributions, so the probability that they are equal is $0$.
+If $p=q$ and $k\neq \ell$, then
+\[
+T_{p,k}=T_{p,\ell}
+\quad\Longrightarrow\quad
+\frac{\xi_p}{k\log p}=\frac{\xi_p}{\ell\log p}
+\quad\Longrightarrow\quad
+\xi_p=0,
+\]
+which again has probability $0$.
+Since there are only countably many unordered pairs of distinct indices $((p,k),(q,\ell))$, a countable union bound shows that almost surely all jump times are distinct.
+
+For later use, fix \(u>1\). Then
+\[
+\sum_p\sum_{k\ge 1}\mathbb P(T_{p,k}>u)
+=
+\sum_p\sum_{k\ge 1} p^{-ku}
+=
+\sum_p\frac{p^{-u}}{1-p^{-u}}
+<\infty.
+\]
+Hence, by the first Borel--Cantelli lemma, almost surely only finitely many jump times exceed \(u\). Intersecting over rational \(u>1\), we may enlarge our probability-one event so that this holds simultaneously for every \(u>1\). On that event the process \(t\mapsto N_t\) is piecewise constant on every interval \([u,\infty)\), with only finitely many jumps there. In particular, every visited state is attained on a nonempty interval of times, and for each \(n\ge 2\) the event \(\{n\in\mathcal C\}\) is measurable; indeed,
+\[
+\{n\in\mathcal C\}
+=
+\bigcup_{\substack{r\in\mathbb Q\\ r>1}}\{N_r=n\}.
+\]
+
+
+Moreover,
+\[
+\sum_p \mathbb P(T_{p,1}>1)=\sum_p \mathbb P(\xi_p>\log p)=\sum_p \frac1p=\infty.
+\]
+By the second Borel--Cantelli lemma, almost surely infinitely many events $\{T_{p,1}>1\}$ occur. Hence almost surely the process has infinitely many jumps on $(1,\infty)$, so the set
+\[
+\mathcal C:=\{N_t:\ t>1\}\setminus\{1\}
+\]
+is almost surely infinite and can be listed as
+\[
+c_1<c_2<\cdots,\qquad c_i\mid c_{i+1}\quad (i\ge 1).
+\]
+
+\medskip
+
+\noindent
+{\bf Step 2: the distribution of $N_t$.}
+
+For $n=\prod_p p^{v_p(n)}$ and $t>1$, one has
+\[
+\mathbb P\bigl(\alpha_p(t)=v\bigr)=p^{-vt}(1-p^{-t})\qquad (v\ge 0).
+\]
+Let
+\[
+E_y:=
+\bigcap_{p\mid n}\{\alpha_p(t)=v_p(n)\}
+\cap
+\bigcap_{\substack{p\le y\\ p\nmid n}}\{\alpha_p(t)=0\},
+\]
+where $y$ runs over real numbers larger than every prime divisor of $n$.
+Then the events $E_y$ decrease to $\{N_t=n\}$ as $y\to\infty$.
+Hence, by continuity from above and independence,
+\[
+\mathbb P(N_t=n)
+=
+\lim_{y\to\infty}\mathbb P(E_y)
+=
+\prod_{p\mid n} p^{-v_p(n)t}(1-p^{-t})
+\prod_{p\nmid n}(1-p^{-t}).
+\]
+Since $t>1$, the Euler product converges absolutely and
+\[
+\prod_p(1-p^{-t})=\frac{1}{\zeta(t)}.
+\]
+Therefore
+\begin{equation}\label{eq:Nt-distribution}
+\mathbb P(N_t=n)=\frac{1}{n^t\zeta(t)}.
+\end{equation}
+
+
+
+
+
+
+\medskip
+
+\noindent
+{\bf Step 3: the probability that a given integer is visited.}
+For $n\ge 2$, define
+\[
+\rho(n):=\mathbb P(n\in\mathcal C).
+\]
+
+\begin{lemma}\label{lem:visit-formula}
+For every $n\ge 2$,
+\[
+\rho(n)
+=
+\int_1^\infty
+\frac{1}{n^t\zeta(t)}
+\sum_{p\mid n}\frac{v_p(n)\log p}{1-p^{-t}}
+\,dt.
+\]
+\end{lemma}
+
+\begin{proof}
+Fix \(n\ge 2\). By the observation added at the end of Step~1, on our probability-one event there are only finitely many jumps above each \(u>1\). Hence, if \(n\in\mathcal C\), there is a well-defined first time \(t_*(n)>1\) at which the process enters the state \(n\).
+
+As \(t\) decreases, the process \(t\mapsto N_t\) changes only at jump times, and at each jump exactly one prime exponent increases by \(1\) almost surely (because almost surely all jump times are distinct). Consequently every state can be entered at most once.
+
+If \(n\in\mathcal C\), let \(p\) be the prime whose coordinate jumps at time \(t_*(n)\). Then necessarily \(p\mid n\), and immediately before that jump the state is \(n/p\). Thus the event \(\{n\in\mathcal C\}\) is the disjoint union of the events \(E_p(n)\) (\(p\mid n\)), where \(E_p(n)\) denotes the event that the process first enters the state \(n\) at a jump caused by the prime \(p\). Therefore
+\[
+\rho(n)=\sum_{p\mid n}\mathbb P(E_p(n)).
+\]
+
+Fix \(p\mid n\), and set
+\[
+\tau_p:=\frac{\xi_p}{v_p(n)\log p}.
+\]
+Then \(\tau_p\) has density
+\[
+f_p(t)=v_p(n)\log p\cdot p^{-v_p(n)t}\mathbf 1_{(0,\infty)}(t).
+\]
+
+For almost every \(t>1\), conditional on \(\tau_p=t\), the event \(E_p(n)\) occurs if and only if
+\[
+v_q(n)t\log q<\xi_q<(v_q(n)+1)t\log q
+\qquad (q\mid n,\ q\ne p),
+\]
+and
+\[
+\xi_q<t\log q
+\qquad (q\nmid n).
+\]
+These conditions say precisely that just before time \(t\), the exponent of each \(q\ne p\) equals \(v_q(n)\) if \(q\mid n\), and equals \(0\) if \(q\nmid n\). No extra condition is needed for \(p\), because \(\tau_p=t\) already forces the \(p\)-coordinate to jump from \(v_p(n)-1\) to \(v_p(n)\) at time \(t\). Also, simultaneous jumps with some \(q\neq p\) have conditional probability zero, since each \(\xi_q\) has a continuous distribution. Therefore, for almost every \(t>1\),
+\[
+\mathbb P(E_p(n)\mid \tau_p=t)
+=
+\left(
+\prod_{\substack{q\mid n\\ q\ne p}}
+\bigl(q^{-v_q(n)t}-q^{-(v_q(n)+1)t}\bigr)
+\right)
+\left(
+\prod_{q\nmid n}(1-q^{-t})
+\right).
+\]
+
+By the law of total probability with respect to the absolutely continuous random variable \(\tau_p\),
+\[
+\mathbb P(E_p(n))
+=
+\int_1^\infty \mathbb P(E_p(n)\mid \tau_p=t)\,f_p(t)\,dt,
+\]
+and hence
+\[
+\mathbb P(E_p(n))
+=
+\int_1^\infty
+\left(
+\prod_{\substack{q\mid n\\ q\ne p}}
+\bigl(q^{-v_q(n)t}-q^{-(v_q(n)+1)t}\bigr)
+\right)
+\left(
+\prod_{q\nmid n}(1-q^{-t})
+\right)
+v_p(n)\log p\cdot p^{-v_p(n)t}\,dt.
+\]
+
+For fixed \(t>1\), the infinite product over \(q\nmid n\) is legitimate, since
+\[
+\sum_{q\nmid n} q^{-t}<\infty,
+\]
+and hence
+\[
+\prod_{q\nmid n}(1-q^{-t})
+\]
+is the probability of the independent event
+\[
+\bigcap_{q\nmid n}\{\xi_q<t\log q\},
+\]
+obtained as the limit over finite sets of primes.
+
+Rewriting the finite product over \(q\mid n,\ q\ne p\), we get
+\[
+\mathbb P(E_p(n))
+=
+\int_1^\infty
+v_p(n)\log p\cdot p^{-v_p(n)t}
+\prod_{\substack{q\mid n\\ q\ne p}} q^{-v_q(n)t}(1-q^{-t})
+\prod_{q\nmid n}(1-q^{-t})\,dt.
+\]
+Summing over \(p\mid n\), we obtain
+\[
+\rho(n)
+=
+\int_1^\infty
+\left(
+\prod_{q\mid n} q^{-v_q(n)t}
+\prod_q(1-q^{-t})
+\right)
+\sum_{p\mid n}\frac{v_p(n)\log p}{1-p^{-t}}\,dt.
+\]
+Since
+\[
+\prod_{q\mid n} q^{-v_q(n)t}=n^{-t},
+\qquad
+\prod_q(1-q^{-t})=\frac{1}{\zeta(t)},
+\]
+the stated formula follows.
+\end{proof}
+Since
+\[
+\sum_{p\mid n} v_p(n)\log p=\log n
+\qquad\text{and}\qquad
+\frac{1}{1-p^{-t}}\ge 1,
+\]
+Lemma~\ref{lem:visit-formula} immediately yields
+\begin{equation}\label{eq:pi-lower-1}
+\rho(n)\ge \log n\int_1^\infty \frac{dt}{n^t\zeta(t)}.
+\end{equation}
+
+\begin{lemma}\label{lem:pi-lower-2}
+There exists an absolute constant $C>0$ such that for every $n\ge 3$,
+\[
+\rho(n)\ge \frac{1}{n\log n}-\frac{C}{n(\log n)^2}.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(L:=\log n\). From \eqref{eq:pi-lower-1}, after the change of variables \(t=1+u\),
+\[
+\rho(n)\ge \frac{L}{n}\int_0^\infty \frac{e^{-Lu}}{\zeta(1+u)}\,du.
+\]
+As \(u\to 0^+\), one has
+\[
+\frac1{\zeta(1+u)}=u+O(u^2).
+\]
+Hence there exist absolute constants \(B>0\) and \(u_0\in(0,1]\) such that
+\[
+\frac1{\zeta(1+u)}\ge u-Bu^2
+\qquad (0<u\le u_0).
+\]
+Now enlarge \(B\) if necessary so that the same inequality holds for all \(u\in(0,1]\). Indeed, on the compact interval \([u_0,1]\), the function \(u\mapsto 1/\zeta(1+u)\) is continuous and strictly positive, whereas \(u-Bu^2\) can be made uniformly smaller by increasing \(B\). Therefore
+\[
+\frac1{\zeta(1+u)}\ge u-Bu^2
+\qquad (0<u\le 1).
+\]
+It follows that
+\[
+\rho(n)\ge \frac{L}{n}\int_0^1 e^{-Lu}(u-Bu^2)\,du.
+\]
+Now
+\[
+\int_0^1 ue^{-Lu}\,du
+=
+\frac{1-(L+1)e^{-L}}{L^2},
+\]
+and
+\[
+\int_0^1 u^2e^{-Lu}\,du\le \int_0^\infty u^2e^{-Lu}\,du=\frac{2}{L^3}.
+\]
+Thus
+\[
+\rho(n)\ge
+\frac{1-(L+1)e^{-L}}{nL}-\frac{2B}{nL^2}.
+\]
+Since \(e^{-L}=1/n\), this becomes
+\[
+\rho(n)\ge
+\frac{1}{nL}-\frac{L+1}{n^2L}-\frac{2B}{nL^2}.
+\]
+For \(n\ge 3\), we have
+\[
+\frac{L+1}{n^2L}\le \frac{1}{nL^2}.
+\]
+Therefore
+\[
+\rho(n)\ge \frac{1}{nL}-\frac{2B+1}{nL^2}.
+\]
+Thus the result holds with \(C:=2B+1\).
+\end{proof}
+
+\medskip
+
+\noindent
+{\bf Step 4: the expected number of visited elements of $A$.}
+For a realization $\omega$, let
+\[
+C_A(x,\omega):=\#\bigl(\mathcal C(\omega)\cap A\cap [2,x)\bigr).
+\]
+Then
+\[
+\mathbb E\,C_A(x)=\sum_{\substack{a_n<x}}\rho(a_n).
+\]
+By Lemma~\ref{lem:pi-lower-2},
+\[
+\mathbb E\,C_A(x)
+\ge
+\sum_{\substack{a_n<x\\ a_n\ge 3}}
+\left(
+\frac{1}{a_n\log a_n}
+-
+\frac{C}{a_n(\log a_n)^2}
+\right).
+\]
+Since the possible missing term \(a_n=2\) contributes at most the absolute constant
+\[
+\frac{1}{2\log 2}
+\]
+to \(W_A(x)\), and since
+\[
+\sum_{m\ge 3}\frac{1}{m(\log m)^2}<\infty,
+\]
+there exists an absolute constant \(K\) such that
+\begin{equation}\label{eq:EC-lower}
+\mathbb E\,C_A(x)\ge W_A(x)-K
+\qquad (x\ge 3).
+\end{equation}
+
+
+\medskip
+
+\noindent
+{\bf Step 5: a uniform second-moment bound.}
+For each prime \(p\), define
+\[
+G_p:=\left\lfloor \frac{\xi_p}{\log p}\right\rfloor.
+\]
+Then \(G_p\) upper bounds the total number of jumps contributed by the prime \(p\) on the interval \(t>1\), and it is exactly that number except on the null event \(\xi_p/\log p\in\mathbb Z\).
+
+If \(m\in\mathcal C\) and \(m<x\), let \(J(m)\) denote the unique jump at which the process first enters the state \(m\). Distinct integers \(m\) give distinct jumps \(J(m)\), since each jump produces exactly one new state. Moreover, the jump \(J(m)\) multiplies the previous state by a prime divisor of \(m\), hence by some prime \(p<x\). Therefore the map
+\[
+m\mapsto J(m)
+\]
+embeds \(\mathcal C\cap [2,x)\) into the collection of all jumps contributed by primes \(p<x\). Since the total number of jumps contributed by a given prime \(p\) on \((1,\infty)\) is at most \(G_p\), it follows that
+\[
+\#\bigl(\mathcal C\cap [2,x)\bigr)\le \sum_{p<x}G_p,
+\]
+and in particular
+\begin{equation}\label{eq:CA-majorized}
+C_A(x,\omega)\le \sum_{p<x}G_p(\omega).
+\end{equation}
+
+Next, for $k\ge 1$,
+\[
+\mathbb P(G_p\ge k)=\mathbb P(\xi_p\ge k\log p)=p^{-k}.
+\]
+Hence
+\[
+\mathbb E\,G_p=\sum_{k\ge 1}\mathbb P(G_p\ge k)=\frac{1}{p-1},
+\]
+and, using the standard tail-sum identity for nonnegative integer-valued random variables,
+\[
+\mathbb E\,G_p^2
+=
+\sum_{k\ge 1}(2k-1)\mathbb P(G_p\ge k)
+=
+\sum_{k\ge 1}(2k-1)p^{-k}
+\ll \frac{1}{p}.
+\]
+Since the $G_p$ are independent,
+\[
+\mathbb E\Bigl(\sum_{p<x}G_p\Bigr)^2
+=
+\sum_{p<x}\mathbb E\,G_p^2
++
+2\sum_{\substack{p<q<x}}\mathbb E\,G_p\,\mathbb E\,G_q
+\ll
+\sum_{p<x}\frac1p
++
+\left(\sum_{p<x}\frac1{p-1}\right)^2.
+\]
+Using the classical estimate
+\[
+\sum_{p\le y}\frac1p=\log\log y+O(1),
+\]
+together with
+\[
+\frac1{p-1}=\frac1p+O\!\left(\frac1{p^2}\right),
+\]
+we have
+\[
+\sum_{p<x}\frac1{p-1}=\log\log x+O(1).
+\]
+Therefore
+\[
+\mathbb E\Bigl(\sum_{p<x}G_p\Bigr)^2\ll (\log\log x)^2.
+\]
+Together with \eqref{eq:CA-majorized}, this gives
+\begin{equation}\label{eq:L2-bound}
+\sup_{x\ge e^e}\mathbb E\left(\frac{C_A(x)}{\log\log x}\right)^2<\infty.
+\end{equation}
+Set
+\[
+Z_x:=\frac{C_A(x)}{\log\log x}\qquad (x\ge e^e).
+\]
+Then \eqref{eq:L2-bound} says that \(\sup_{x\ge e^e}\mathbb E Z_x^2<\infty\).
+Hence for every \(B>0\),
+\[
+\sup_{x\ge e^e}\mathbb E\bigl[Z_x\mathbf 1_{\{Z_x>B\}}\bigr]
+\le
+\frac1B\sup_{x\ge e^e}\mathbb E Z_x^2,
+\]
+because \(Z_x\mathbf 1_{\{Z_x>B\}}\le Z_x^2/B\).
+Therefore
+\[
+\sup_{x\ge e^e}\mathbb E\bigl[Z_x\mathbf 1_{\{Z_x>B\}}\bigr]\to 0
+\qquad (B\to\infty),
+\]
+so the family
+\[
+\left\{\frac{C_A(x)}{\log\log x}: x\ge e^e\right\}
+\]
+is uniformly integrable.
+
+\medskip
+
+We shall use the following elementary fact.
+
+\begin{claim}\label{clm:ui-limsup}
+Let \(Y_1,Y_2,\dots\) be nonnegative uniformly integrable random variables. Then
+\[
+\mathbb E\!\left[\limsup_{m\to\infty} Y_m\right]
+\ge
+\limsup_{m\to\infty}\mathbb E\,Y_m.
+\]
+\end{claim}
+
+\begin{proof}
+This is a special case of a reverse Fatou-type inequality under uniform integrability; see, for instance, \cite[Corollary~4.2]{Kamihigashi2017}.
+\end{proof}
+
+\medskip
+
+\noindent
+{\bf Step 6: extracting one good realization.}
+Choose a sequence $x_m\to\infty$ with $x_m\ge e^e$ for every $m$ such that
+\[
+\frac{W_A(x_m)}{\log\log x_m}\longrightarrow \Lambda.
+\]
+This is possible by the definition of \(\Lambda\).
+Set
+\[
+Y_m:=\frac{C_A(x_m)}{\log\log x_m}.
+\]
+By \eqref{eq:EC-lower},
+\[
+\mathbb E\,Y_m
+\ge
+\frac{W_A(x_m)}{\log\log x_m}
+-
+\frac{K}{\log\log x_m},
+\]
+so
+\begin{equation}\label{eq:EY-limsup}
+\limsup_{m\to\infty}\mathbb E\,Y_m\ge \Lambda.
+\end{equation}
+
+
+
+
+
+
+
+By \eqref{eq:L2-bound}, the family \(\{Y_m\}\) is uniformly integrable. Therefore Claim~\ref{clm:ui-limsup}, together with \eqref{eq:EY-limsup}, yields
+\[
+\mathbb E\!\left[\limsup_{m\to\infty}Y_m\right]
+\ge
+\limsup_{m\to\infty}\mathbb E\,Y_m
+\ge \Lambda.
+\]
+Since \(\Lambda<\infty\), the random variable \(\limsup_{m\to\infty}Y_m\) cannot be strictly smaller than \(\Lambda\) almost surely; otherwise \(\Lambda-\limsup_{m\to\infty}Y_m\) would be a positive integrable random variable with strictly positive expectation, contradicting the displayed inequality. Hence there exists a realization \(\omega\) such that
+\[
+\limsup_{m\to\infty}\frac{C_A(x_m,\omega)}{\log\log x_m}\ge \Lambda.
+\]
+A fortiori,
+\[
+\limsup_{x\to\infty}\frac{C_A(x,\omega)}{\log\log x}\ge \Lambda.
+\]
+
+
+Since \(A\) has positive lower logarithmic density, we have \(\Lambda>0\). Indeed, let
+\[
+\widetilde S_A(x):=\sum_{a_n\le x}\frac1{a_n}.
+\]
+Then
+\[
+\liminf_{x\to\infty}\frac{\widetilde S_A(x)}{\log x}>0,
+\]
+because replacing \(<x\) by \(\le x\) changes the sum by at most \(1/x\). Hence there exist constants \(\delta>0\) and \(X_0\ge 2\) such that
+\[
+\widetilde S_A(x)\ge \delta\log x
+\qquad (x\ge X_0).
+\]
+
+
+Applying Stieltjes partial summation, and using \(\widetilde S_A(2^-)=0\), we obtain
+\[
+\sum_{a_n\le x}\frac{1}{a_n\log a_n}
+=
+\frac{\widetilde S_A(x)}{\log x}
++
+\int_2^x \frac{\widetilde S_A(t)}{t(\log t)^2}\,dt.
+\]
+Since replacing \(\le x\) by \(<x\) changes the left-hand side by at most \(1/(x\log x)\), it follows that
+\[
+W_A(x)
+\ge
+\int_2^x \frac{\widetilde S_A(t)}{t(\log t)^2}\,dt
+-
+\frac{1}{x\log x}.
+\]
+Hence, for \(x\ge X_0\),
+\[
+W_A(x)
+\ge
+\int_{X_0}^x \frac{\widetilde S_A(t)}{t(\log t)^2}\,dt
+-
+\frac{1}{2\log 2}
+\ge
+\delta\int_{X_0}^x \frac{dt}{t\log t}
+-
+\frac{1}{2\log 2}
+=
+\delta\bigl(\log\log x-\log\log X_0\bigr)-\frac{1}{2\log 2}.
+\]
+Therefore
+\[
+\Lambda=\limsup_{x\to\infty}\frac{W_A(x)}{\log\log x}\ge \delta>0.
+\]
+
+
+
+Consequently $C_A(x,\omega)$ is unbounded, so $\mathcal C(\omega)\cap A$ is infinite. List its elements increasingly as
+\[
+a_{n_1}<a_{n_2}<\cdots.
+\]
+Since $\mathcal C(\omega)$ itself is an increasing divisibility chain, we have
+\[
+a_{n_i}\mid a_{n_{i+1}}\qquad (i\ge 1).
+\]
+Finally,
+\[
+C_A(x,\omega)=\#\{i:\ a_{n_i}<x\},
+\]
+and hence
+\[
+\limsup_{x\to\infty}\frac{1}{\log\log x}\#\{i:\ a_{n_i}<x\}
+=
+\limsup_{x\to\infty}\frac{C_A(x,\omega)}{\log\log x}
+\ge \Lambda
+=
+\limsup_{x\to\infty}\frac{1}{\log\log x}\sum_{\substack{a_n<x}}\frac{1}{a_n\log a_n}.
+\]
+This completes the proof.
+\end{proof}
+
+\begin{remark}
+The argument above actually uses only the positivity of
+\[
+\Lambda=
+\limsup_{x\to\infty}\frac{1}{\log\log x}\sum_{\substack{a_n<x}}\frac{1}{a_n\log a_n}.
+\]
+Thus the same proof gives the conclusion under the weaker hypothesis $\Lambda>0$; the assumption of positive lower logarithmic density is used only to guarantee that $\Lambda>0$.
+\end{remark}
+
+
+
+
+
+
+
+
+
+\begin{thebibliography}{99}
+
+
+
+\bibitem{Kamihigashi2017}
+Takashi Kamihigashi,
+\newblock A generalization of Fatou's lemma for extended real-valued functions on $\sigma$-finite measure spaces: with an application to infinite-horizon optimization in discrete time,
+\newblock {\em Journal of Inequalities and Applications} {\bf 2017} (2017), Article 24.
+\newblock DOI: 10.1186/s13660-016-1288-5.
+
+
+
+
+\end{thebibliography}
+
+
+
+
+
+
+
+
+
+
+\end{document}
